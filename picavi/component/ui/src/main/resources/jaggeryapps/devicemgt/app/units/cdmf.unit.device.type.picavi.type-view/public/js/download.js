@@ -82,7 +82,7 @@ function attachEvents() {
 
 function toggleQR() {
     modalDialog.header('Enter authentication details for the agent');
-    modalDialog.content('<form action="/action_page.php"><table><tr><td>Username  </td><td><input id="userName" style="color:#000000" type="text" name="fname"></td></tr><tr><td><br></td></tr><tr><td>Password  </td><td><input id="password" type="text" style="color:#000000" name="lname"></td></tr><tr><td><br></td></tr><tr><td>Server Endpoint  </td><td><input id="serverEndpoint" type="text" style="color:#000000" name="serverName"></td></tr></table></form><br><br><div class="panel panel-default"><div class="add-padding-1x" style="background-color: #ffffff; width: 265px" id="qrcodetest"></div></div>');
+    modalDialog.content('<form action="/action_page.php"><table><tr><td>Username  </td><td><input id="userName" style="color:#000000" type="text" name="fname"></td></tr><tr><td><br></td></tr><tr><td>Password  </td><td><input id="password" type="text" style="color:#000000" name="lname"></td></tr><tr><td><br></td></tr><tr><td>Server Endpoint  </td><td><input id="serverEndpoint" type="text" style="color:#000000" name="serverName"></td></tr><tr><td>(Ex: https://192.168.1.1:8243)</td></tr></table></form><br><br><div class="panel panel-default"><div class="add-padding-1x" style="background-color: #ffffff; width: 265px" id="qrcodetest"></div></div>');
     modalDialog.footer('<div class="buttons"><a href="#" id="remove-certificate-yes-link" class="btn-operations">' +
         'Generate QR Code</a>'+'</div>');
     modalDialog.show();
