@@ -20,6 +20,7 @@ var modalPopup = ".modal";
 var modalPopupContainer = modalPopup + " .modal-content";
 var modalPopupContent = modalPopup + " .modal-content";
 var body = "body";
+    //var deviceMgtProps = require("/app/modules/conf-reader/main.js")["conf"];
 
 /*
  * Set popup maximum height function.
@@ -57,6 +58,9 @@ function hideAgentDownloadPopup() {
  * DOM ready functions.
  */
 $(document).ready(function () {
+$(".testerone").click(function () {
+              toggleQR();
+          });
 	attachEvents();
 });
 
@@ -74,6 +78,18 @@ function attachEvents() {
 		$(modalPopupContent).html($('#download-device-modal-content').html());
 		showAgentDownloadPopup();
 	});
+}
+
+function toggleQR() {
+    modalDialog.header('Enter authentication details for the agent');
+    modalDialog.content('<form action="/action_page.php"><table><tr><td>Username  </td><td><input id="userName" style="color:#000000" type="text" name="fname"></td></tr><tr><td><br></td></tr><tr><td>Password  </td><td><input id="password" type="text" style="color:#000000" name="lname"></td></tr><tr><td><br></td></tr><tr><td>Server Endpoint  </td><td><input id="serverEndpoint" type="text" style="color:#000000" name="serverName"></td></tr></table></form><br><br><div class="panel panel-default"><div class="add-padding-1x" style="background-color: #ffffff; width: 265px" id="qrcodetest"></div></div>');
+    modalDialog.footer('<div class="buttons"><a href="#" id="remove-certificate-yes-link" class="btn-operations">' +
+        'Generate QR Code</a>'+'</div>');
+    modalDialog.show();
+    $("#remove-certificate-yes-link").click(function () {
+    $('#qrcodetest').html("");
+    $('#qrcodetest').qrcode($("#serverEndpoint").val()+','+ $("#userName").val() + "," + $("#password").val());
+              });
 }
 
 function downloadAgent() {
@@ -114,6 +130,7 @@ function doAction(data) {
 			$(this).select();
 		});
 		showAgentDownloadPopup();
+
 	} else if (data.status == "401") {
 		$(modalPopupContent).html($('#device-401-content').html());
 		$("#device-401-link").click(function () {

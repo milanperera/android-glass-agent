@@ -17,7 +17,7 @@ package org.homeautomation.picavi.api.listener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.homeautomation.picavi.api.constants.AndroidTVConstants;
+import org.homeautomation.picavi.api.constants.PicaviConstants;
 import org.wso2.carbon.CarbonConstants;
 import org.wso2.carbon.context.PrivilegedCarbonContext;
 import org.wso2.carbon.user.api.AuthorizationManager;
@@ -39,13 +39,13 @@ public class PicaviPermissionUpdateListener implements ServletContextListener {
         UserStoreManager userStoreManager = getUserStoreManager();
         try {
             if (userStoreManager != null) {
-                if (!userStoreManager.isExistingRole(AndroidTVConstants.ROLE_NAME)) {
-                    userStoreManager.addRole(AndroidTVConstants.ROLE_NAME, null, getPermissions());
+                if (!userStoreManager.isExistingRole(PicaviConstants.ROLE_NAME)) {
+                    userStoreManager.addRole(PicaviConstants.ROLE_NAME, null, getPermissions());
                 } else {
-                    getAuthorizationManager().authorizeRole(AndroidTVConstants.ROLE_NAME,
-                            AndroidTVConstants.PERM_ENROLL_ANDROID_TV, CarbonConstants.UI_PERMISSION_ACTION);
-                    getAuthorizationManager().authorizeRole(AndroidTVConstants.ROLE_NAME,
-                            AndroidTVConstants.PERM_OWNING_DEVICE_VIEW, CarbonConstants.UI_PERMISSION_ACTION);
+                    getAuthorizationManager().authorizeRole(PicaviConstants.ROLE_NAME,
+                            PicaviConstants.PERM_ENROLL_PICAVI, CarbonConstants.UI_PERMISSION_ACTION);
+                    getAuthorizationManager().authorizeRole(PicaviConstants.ROLE_NAME,
+                            PicaviConstants.PERM_OWNING_DEVICE_VIEW, CarbonConstants.UI_PERMISSION_ACTION);
                 }
             } } catch (UserStoreException e) {
             log.error("Error while creating a role and adding a user for Android Sense.", e);
@@ -102,9 +102,9 @@ public class PicaviPermissionUpdateListener implements ServletContextListener {
 
     private Permission[] getPermissions() {
 
-            Permission androidTv = new Permission(AndroidTVConstants.PERM_ENROLL_ANDROID_TV,
+            Permission androidTv = new Permission(PicaviConstants.PERM_ENROLL_PICAVI,
                     CarbonConstants.UI_PERMISSION_ACTION);
-            Permission view = new Permission(AndroidTVConstants.PERM_OWNING_DEVICE_VIEW, CarbonConstants
+            Permission view = new Permission(PicaviConstants.PERM_OWNING_DEVICE_VIEW, CarbonConstants
                     .UI_PERMISSION_ACTION);
 
             return new Permission[]{androidTv, view};
