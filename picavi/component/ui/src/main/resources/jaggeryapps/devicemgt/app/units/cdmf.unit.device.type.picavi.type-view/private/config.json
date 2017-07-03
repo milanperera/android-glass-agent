@@ -1,0 +1,11 @@
+
+{
+  "deviceType": {
+    "label": "Picavi Wearable",
+    "category": "iot",
+    "downloadAgentUri": "picavi/device/download",
+    "scopes" : [
+      "perm:picavi:enroll"
+    ]
+  }
+}
