@@ -19,4 +19,6 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="serial_port">Serial Port</string>
     <string name="title_activity_registered">RegisteredActivity</string>
+
+    <string name="sign_in">Register Device via QR</string>
 </resources>

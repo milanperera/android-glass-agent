@@ -31,12 +31,11 @@ public class PicaviUtils {
 
         final TelephonyManager tm = (TelephonyManager) baseContext.getSystemService(Context.TELEPHONY_SERVICE);
 
-        final String tmDevice, tmSerial, androidId;
-        tmDevice = String.valueOf(122345);
-        tmSerial = String.valueOf(11111111);
-        androidId = String.valueOf(121212121);
+        final String tmDevice, androidId;
+        tmDevice = "" + tm.getDeviceId();
+        androidId = "" + android.provider.Settings.Secure.getString(contentResolver, android.provider.Settings.Secure.ANDROID_ID);
 
-        UUID deviceUuid = new UUID(androidId.hashCode(), ((long) tmDevice.hashCode() << 32) | tmSerial.hashCode());
+        UUID deviceUuid = new UUID(androidId.hashCode(), ((long) tmDevice.hashCode() << 32));
         return deviceUuid.toString();
 
     }

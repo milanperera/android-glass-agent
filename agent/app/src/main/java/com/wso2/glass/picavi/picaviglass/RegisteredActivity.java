@@ -3,6 +3,7 @@ package com.wso2.glass.picavi.picaviglass;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 
@@ -10,6 +11,8 @@ import com.wso2.glass.picavi.picaviglass.services.DeviceManagementService;
 import com.wso2.glass.picavi.picaviglass.util.LocalRegistry;
 
 public class RegisteredActivity extends Activity {
+
+    private Handler mHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +29,12 @@ public class RegisteredActivity extends Activity {
                 unregister();
             }
         });
+
+        mHandler.postDelayed(new Runnable() {
+            public void run() {
+                closeActivity();
+            }
+        }, 5000);
     }
 
     @Override
@@ -67,6 +76,10 @@ public class RegisteredActivity extends Activity {
         startActivity(registerActivity);
         finish();
         return true;
+    }
+
+    private void closeActivity() {
+        finish();
     }
 
 }

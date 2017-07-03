@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,20 +8,61 @@
     android:weightSum="1"
     tools:context=".RegisterActivity">
 
-    <include
-        android:id="@+id/top_banner"
-        layout="@layout/top_banner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    <!--<include-->
+        <!--android:id="@+id/top_banner"-->
+        <!--layout="@layout/top_banner"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_above="@+id/qr_view"-->
+        <!--android:layout_height="wrap_content" />-->
 
     <!-- Login progress -->
+
+    <SurfaceView
+        android:id="@+id/camera_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/sign_in"
+        android:layout_margin="10dp"
+        android:textAlignment="center"/>
 
     <ProgressBar
         android:id="@+id/login_progress"
         style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
         android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/qrResponse"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="QR code"
+        android:layout_margin="10dp"
+        android:layout_above="@+id/imageViewLogo"
+        android:textAlignment="center"/>
+
+    <ImageView
+        android:id="@+id/imageViewLogo"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/wso2" />
+
+
+
+
 
     <ScrollView
         android:id="@+id/login_form"
@@ -90,4 +131,4 @@
         </LinearLayout>
     </ScrollView>
 
-</LinearLayout>
+</RelativeLayout>

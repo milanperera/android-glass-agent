@@ -21,9 +21,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
+import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -31,6 +34,9 @@ import com.wso2.glass.picavi.picaviglass.util.PicaviClient;
 import com.wso2.glass.picavi.picaviglass.util.PicaviUtils;
 import com.wso2.glass.picavi.picaviglass.util.LocalRegistry;
 import com.wso2.glass.picavi.picaviglass.util.dto.RegisterInfo;
+
+import github.nisrulz.qreader.QRDataListener;
+import github.nisrulz.qreader.QREader;
 
 public class RegisterActivity extends Activity {
 
@@ -41,6 +47,12 @@ public class RegisterActivity extends Activity {
     private View mLoginFormView;
     private Button deviceRegisterButton;
     private Handler mUiHandler = new Handler();
+
+    // QREader
+    private SurfaceView mySurfaceView;
+    private QREader qrEader;
+
+    private TextView qrResponse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +67,9 @@ public class RegisterActivity extends Activity {
         mUsernameView = (EditText) findViewById(R.id.username);
         mPasswordView = (EditText) findViewById(R.id.password);
         mHostView = (EditText) findViewById(R.id.hostname);
+        qrResponse = (TextView) findViewById(R.id.qrResponse);
+
+        qrResponse.setVisibility(View.GONE);
 
         deviceRegisterButton = (Button) findViewById(R.id.device_register_button);
 
@@ -66,7 +81,43 @@ public class RegisterActivity extends Activity {
         });
 
         mLoginFormView = findViewById(R.id.login_form);
+        mLoginFormView.setVisibility(View.GONE);
         mProgressView = findViewById(R.id.login_progress);
+
+        // Setup SurfaceView
+        // -----------------
+        mySurfaceView = (SurfaceView) findViewById(R.id.camera_view);
+
+        final Handler handler = new Handler(getMainLooper());
+        // Init QREader
+        // ------------
+        qrEader = new QREader.Builder(this, mySurfaceView, new QRDataListener() {
+            @Override
+            public void onDetected(final String data) {
+               Log.d("QREader", "Value : " + data);
+                qrResponse.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (isValidQRCode(data)) {
+                            qrResponse.setText("Valid QR code is detected");
+                            qrResponse.setVisibility(View.VISIBLE);
+                            attemptLogin();
+                        }
+                    }
+                });
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(), data, Toast.LENGTH_SHORT);
+                    }
+                });
+
+            }
+        }).facing(QREader.BACK_CAM)
+                .enableAutofocus(true)
+                .height(mySurfaceView.getHeight())
+                .width(mySurfaceView.getWidth())
+                .build();
     }
 
     public void attemptLogin() {
@@ -114,7 +165,7 @@ public class RegisterActivity extends Activity {
                     mUiHandler.post(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(getApplicationContext(), registerStatus.getMsg(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), registerStatus.getMsg(), Toast.LENGTH_SHORT).show();
                         }
                     });
 
@@ -150,14 +201,16 @@ public class RegisterActivity extends Activity {
     public void showProgress(final boolean show) {
         int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
-        mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-        mLoginFormView.animate().setDuration(shortAnimTime).alpha(
-                show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            }
-        });
+//        mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+//        mLoginFormView.animate().setDuration(shortAnimTime).alpha(
+//                show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
+//            @Override
+//            public void onAnimationEnd(Animator animation) {
+//                mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+//            }
+//        });
+
+        qrResponse.setVisibility(show ? View.VISIBLE : View.GONE);
 
         mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
         mProgressView.animate().setDuration(shortAnimTime).alpha(
@@ -167,6 +220,38 @@ public class RegisterActivity extends Activity {
                 mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
             }
         });
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // Init and Start with SurfaceView
+        // -------------------------------
+        qrEader.initAndStart(mySurfaceView);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        // Cleanup in onPause()
+        // --------------------
+        qrEader.releaseAndCleanup();
+    }
+
+    private boolean isValidQRCode(String value) {
+        if (value != null) {
+            String values[] = value.split(",");
+            if (values.length == 3) {
+                mHostView.setText(values[0].trim());
+                mUsernameView.setText(values[1].trim());
+                mUsernameView.setText(values[2].trim());
+                return true;
+            }
+        }
+        return false;
     }
 
 }
