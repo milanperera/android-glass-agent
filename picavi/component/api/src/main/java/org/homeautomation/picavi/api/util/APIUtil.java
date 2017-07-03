@@ -2,7 +2,7 @@ package org.homeautomation.picavi.api.util;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.homeautomation.picavi.api.constants.AndroidTVConstants;
+import org.homeautomation.picavi.api.constants.PicaviConstants;
 import org.homeautomation.picavi.plugin.constants.DeviceTypeConstants;
 import org.homeautomation.picavi.plugin.impl.DeviceTypeManager;
 import org.wso2.carbon.analytics.api.AnalyticsDataAPI;
@@ -176,10 +176,10 @@ public class APIUtil {
 
 
 	public static String getMqttEndpoint() throws ConfigurationManagementException {
-		String iotServerIP = Utils.replaceSystemProperty(AndroidTVConstants.DEFAULT_ENDPOINT);
-		iotServerIP = iotServerIP.replace(AndroidTVConstants.LOCALHOST, getServerUrl());;
+		String iotServerIP = Utils.replaceSystemProperty(PicaviConstants.DEFAULT_ENDPOINT);
+		iotServerIP = iotServerIP.replace(PicaviConstants.LOCALHOST, getServerUrl());;
 		PlatformConfiguration configuration = APIUtil.getTenantConfigurationManagementService().getConfiguration(
-				AndroidTVConstants.CONFIG_TYPE);
+				PicaviConstants.CONFIG_TYPE);
 		if (configuration != null && configuration.getConfiguration() != null && configuration
 				.getConfiguration().size() > 0) {
 			List<ConfigurationEntry> configurations = configuration.getConfiguration();

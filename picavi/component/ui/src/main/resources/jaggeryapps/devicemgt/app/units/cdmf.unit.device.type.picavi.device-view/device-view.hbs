@@ -45,6 +45,94 @@
     </style>
 {{/zone}}
 
+
+{{#zone "overview-section"}}
+    <div class="media-body asset-desc">
+        <div style="background: #11375B; color: #fff; padding: 10px; margin-bottom: 5px">Device
+            Overview
+        </div>
+        <table class="table table-responsive table-striped" id="members">
+            <tbody>
+            {{#if device.deviceIdentifier}}
+                <tr role="row" class="odd">
+                    <td class="sorting_1" style="padding:10px 15px; width: 15%;">Device ID</td>
+                    <td style="padding:10px 15px;">{{device.deviceIdentifier}}</td>
+                </tr>
+            {{/if}}
+            {{#if device.name}}
+                <tr role="row" class="even">
+                    <td class="sorting_1" style="padding:10px 15px; width: 15%;">Name</td>
+                    <td style="padding:10px 15px;">{{device.name}}</td>
+                </tr>
+            {{/if}}
+            {{#if device.vendor}}
+                {{#if device.model}}
+                    <tr role="row" class="odd">
+                        <td class="sorting_1" style="padding:10px 15px; width: 15%;">Model</td>
+                        <td style="padding:10px 15px;">{{device.vendor}}
+                            {{device.model}}</td>
+                    </tr>
+                {{/if}}
+            {{/if}}
+            {{#if device.status}}
+                <tr role="row" class="even">
+                    <td class="sorting_1" style="padding:10px 15px; width: 15%;">Status</td>
+                    <td style="padding:10px 15px;">
+                        {{#equal device.status "ACTIVE"}}<span><i
+                                class="fw fw-success icon-success"></i>Active</span>{{/equal}}
+                        {{#equal device.status "INACTIVE"}}<span><i
+                                class="fw fw-warning icon-warning"></i>Inactive</span>{{/equal}}
+                        {{#equal device.status "BLOCKED"}}<span><i
+                                class="fw fw-remove icon-danger"></i>Blocked</span>{{/equal}}
+                        {{#equal device.status "REMOVED"}}<span><i
+                                class="fw fw-delete icon-danger"></i>Removed</span>{{/equal}}
+                    </td>
+                </tr>
+            {{/if}}
+            {{#if device.owner}}
+                <tr role="row" class="odd">
+                    <td class="sorting_1" style="padding:10px 15px; width: 15%;">Owner</td>
+                    <td style="padding:10px 15px;">{{device.owner}}</td>
+                </tr>
+            {{/if}}
+            {{#if device.imei}}
+                <tr role="row" class="even">
+                    <td class="sorting_1" style="padding:10px 15px; width: 15%;">IMEI</td>
+                    <td style="padding:10px 15px;">{{device.imei}}</td>
+                </tr>
+            {{/if}}
+            {{#if device.udid}}
+                <tr role="row" class="odd">
+                    <td class="sorting_1" style="padding:10px 15px; width: 15%;">UDID</td>
+                    <td style="padding:10px 15px;">{{device.udid}}</td>
+                </tr>
+            {{/if}}
+            {{#if device.osBuildDate}}
+                <tr role="row" class="even">
+                    <td class="sorting_1" style="padding:10px 15px; width: 15%;">Firmware Build
+                        Date
+                    </td>
+                    <td style="padding:10px 15px;">{{device.osBuildDate}}</td>
+                </tr>
+            {{/if}}
+            {{#if device.phoneNumber}}
+                <tr role="row" class="odd">
+                    <td class="sorting_1" style="padding:10px 15px; width: 15%;">Phone Number</td>
+                    <td style="padding:10px 15px;">{{device.phoneNumber}}</td>
+                </tr>
+            {{/if}}
+            {{#if device.lastUpdatedTime}}
+                <tr role="row" class="even">
+                    <td class="sorting_1" style="padding:10px 15px; width: 15%;">Last Update</td>
+                    <td style="padding:10px 15px;">{{device.lastUpdatedTime}}</td>
+                </tr>
+            {{/if}}
+            </tbody>
+        </table>
+    </div>
+{{/zone}}
+
+
 {{#zone "device-thumbnail"}}
     <img src="{{@unit.publicUri}}/images/deviceType.png"/>
 {{/zone}}
@@ -55,37 +143,15 @@
     </div>
     <div class="add-margin-top-4x">
         {{unit "cdmf.unit.device.operation-bar" device=device autoCompleteParams=autoCompleteParams
-        encodedFeaturePayloads=encodedFeaturePayloads}}
+               encodedFeaturePayloads=encodedFeaturePayloads}}
     </div>
 {{/zone}}
+
 
 {{#zone "device-view-tabs"}}
 
 {{/zone}}
 
 {{#zone "device-view-tab-contents"}}
-    <!-- <div id="edge-device-details" data-deviceid="{{device.deviceIdentifier}}"
-         data-websocketurlStream="{{websocketendpoint}}">
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>Device Name</th>
-                <th>Serial Number</th>
-                <th class="text-center">Command</th>
-                <th>Incoming Message</th>
-                <th class="text-center">Utilities</th>
-            </tr>
-            </thead>
-            <tbody id="edge-device-data">
 
-            </tbody>
-        </table>
-    </div>
--->
-    {{! {{unit "cdmf.unit.device.type.picavi.realtime.analytics-view" device=device}}
-
-{{/zone}}
-
-{{#zone "bottomJs"}}
-    {{js "js/device-view.js"}}
 {{/zone}}
